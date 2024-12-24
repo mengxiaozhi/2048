@@ -1,0 +1,14 @@
+[Unit]
+Description=2048.xiaozhi
+After=network.target
+
+[Service]
+ExecStart=/usr/local/node/bin/node /data/wwwroot/api.xiaozhi.moe/2048/server.js
+Restart=always
+User=root
+Group=root
+Environment=PATH=/usr/bin:/usr/local/bin
+Environment=NODE_ENV=production
+WorkingDirectory=/data/wwwroot/api.xiaozhi.moe/2048/
+[Install]
+WantedBy=multi-user.target
