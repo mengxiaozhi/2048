@@ -1,115 +1,101 @@
 <template>
-    <div class="flex flex-col lg:flex-row min-h-screen">
-        <!-- 左側資訊區域 - 手機上全寬，桌面上 30% -->
-        <div class="lg:w-[30%] bg-gray-100 p-4 lg:p-8 overflow-y-auto order-2 lg:order-1">
-            <div class="flex justify-between">
-                <router-link to="/2048">
-                    <n-image width="150" src="./logo.png" alt="競選Logo" preview-disabled />
-                </router-link>
-                <n-button color="#fd633c" style="background-color: #fd633c;" class="rounded-lg pr-1 pl-1" @click="handleShare">
-                    <n-image width="27" src="./share.png" alt="分享" preview-disabled />
-                </n-button>
-            </div>
-            <n-h1 style="margin:0">
-                <n-text type="primary" strong>
-                    台灣的選擇，劉訊志
-                </n-text>
-            </n-h1>
-            <n-h2 class="text-lg lg:text-xl mb-4 lg:mb-8" style="margin-top:0">2048世代接棒 志在未來</n-h2>
-
-            <div class="mb:mb-4 lg:mb-8 ">
-                <n-avatar round :size="128" src="./avatar.png" alt="劉訊志候選人照片" />
-            </div>
-
-            <n-card class="mb-4 lg:mb-8 rounded-lg">
-                <template #header>
-                    <n-space vertical>
-                        <n-text strong>訂閱最新消息</n-text>
-                    </n-space>
-                </template>
-                <div>
-                    <n-input v-model:value="email" type="email" placeholder="您的電子郵件" class="rounded-lg" required />
-                    &nbsp;
-                    <n-button class="rounded-lg" :loading="isSubscribing" type="primary" block @click="handleSubscribe">
-                        {{ isSubscribing ? '訂閱中...' : '訂閱' }}
-                    </n-button>
-                </div>
-                <n-text v-if="subscribeMessage" type="success" class="mt-2">
-                    {{ subscribeMessage }}
-                </n-text>
-            </n-card>
-
-            <n-card class="mb-4 lg:mb-8 rounded-lg">
-                <template #header>
-                    <n-space vertical>
-                        <n-text strong>支持劉訊志</n-text>
-                        <n-text class="text-center mt-2">
-                            目前支持人數：<n-text strong>{{ supporterCount }}</n-text>
-                        </n-text>
-                    </n-space>
-                </template>
-                <n-button class="rounded-lg" type="primary" ghost :disabled="isSupported" block @click="handleSupport">
-                    {{ isSupported ? '已支持' : '點擊支持' }}
-                </n-button>
-            </n-card>
-
-            <div class="mb-4 lg:mb-8">
-                <n-text type="primary">距離2048年5月20日上任還有</n-text>
-                <n-h2 style="margin:0">{{ timeLeft }}</n-h2>
-            </div>
-
-            <!-- 社群媒體欄 -->
-            <div class="mt-4 lg:mt-8">
-                <n-card class="rounded-lg">
-                    <div class="flex justify-around">
-                        <a href="https://www.facebook.com/liuxunzhi233" target="_blank">
-                            <img src="/facebook-icon.png" alt="Facebook" class="w-8 h-8" />
-                        </a>
-                        <a href="https://page.line.me/696bjtev" target="_blank">
-                            <img src="/line-icon.png" alt="LINE" class="w-8 h-8" />
-                        </a>
-                        <a href="https://xiaozhi.moe" target="_blank">
-                            <img src="/xiaozhi-icon.png" alt="Xiaozhi" class="w-8 h-8" />
-                        </a>
-                    </div>
-                </n-card>
-            </div>
-
-            <div>
-                <div class="flex justify-center pt-12">
-                    <a href="https://xiaozhi.moe/privacy/" target="_blank" class="underline">
-                        隱私政策
-                    </a>
-                    <p>&nbsp;｜&nbsp;</p>
-                    <a href="https://xiaozhi.moe/terms/" target="_blank" class="underline">
-                        使用条款
-                    </a>
-                </div>
-                <div class="flex justify-center">
-                    <p>Copyright © 2024 劉訊志.</p>
-                </div>
-            </div>
+    <div class="mb:mb-4 lg:mb-8 ">
+        <n-avatar round :size="128" src="./avatar.png" alt="劉訊志候選人照片" />
+    </div>
+    <br>
+    <n-card class="mb-4 lg:mb-8 rounded-lg">
+        <template #header>
+            <n-space vertical>
+                <n-text strong>訂閱最新消息</n-text>
+            </n-space>
+        </template>
+        <div>
+            <n-input v-model:value="email" type="email" placeholder="您的電子郵件" class="rounded-lg" required />
+            &nbsp;
+            <n-button class="rounded-lg py-5" :loading="isSubscribing" type="primary" block @click="handleSubscribe">
+                {{ isSubscribing ? '訂閱中...' : '訂閱' }}
+            </n-button>
         </div>
+        <n-text v-if="subscribeMessage" type="success" class="mt-2">
+            {{ subscribeMessage }}
+        </n-text>
+    </n-card>
 
-        <!-- 右側大圖區域 - 手機上全寬，桌面上 70% -->
-        <div class="lg:w-[70%] h-[50vh] md:lg:h-screen relative order-1 lg:order-2">
-            <img src="/2048.png" alt="劉訊志競選大圖" class="w-full h-full" style="object-fit: contain;" />
-        </div>
+    <n-card class="mb-4 lg:mb-8 rounded-lg">
+        <template #header>
+            <n-space vertical>
+                <n-text strong>支持劉訊志</n-text>
+                <n-text class="text-center mt-2">
+                    目前支持人數：<n-text strong>{{ supporterCount }}</n-text>
+                </n-text>
+            </n-space>
+        </template>
+        <n-button class="rounded-lg py-5" type="primary" ghost :disabled="isSupported" block @click="handleSupport">
+            {{ isSupported ? '已支持' : '點擊支持' }}
+        </n-button>
+    </n-card>
+
+    <n-card class="mb-4 lg:mb-8 rounded-lg">
+        <template #header>
+            <n-space vertical>
+                <n-text strong>小額捐款</n-text>
+                <n-text strong>注意：這不是政治獻金</n-text>
+            </n-space>
+        </template>
+        <!-- 捐款按鈕（請確認產品ID與結帳連結正確） -->
+        <n-button @click="openCheckout" color="#fd633c" style="background-color: #fd633c;" class="rounded-lg py-5"
+            block>
+            捐款支持
+        </n-button>
+    </n-card>
+
+    <div class="mb-4 lg:mb-8">
+        <n-text type="primary">距離2048年5月20日上任還有</n-text>
+        <n-h2 style="margin:0">{{ timeLeft }}</n-h2>
+    </div>
+
+    <!-- 社群媒體欄 -->
+    <div class="mt-4 lg:mt-8">
+        <n-card class="rounded-lg">
+            <div class="flex justify-around">
+                <a href="https://www.facebook.com/liuxunzhi233" target="_blank">
+                    <img src="/facebook-icon.png" alt="Facebook" class="w-8 h-8" />
+                </a>
+                <a href="https://page.line.me/696bjtev" target="_blank">
+                    <img src="/line-icon.png" alt="LINE" class="w-8 h-8" />
+                </a>
+                <a href="https://xiaozhi.moe" target="_blank">
+                    <img src="/xiaozhi-icon.png" alt="Xiaozhi" class="w-8 h-8" />
+                </a>
+            </div>
+        </n-card>
     </div>
 </template>
 
 <script>
     import { ref, onMounted, onUnmounted } from 'vue'
-
+    import { useDialog, useMessage } from 'naive-ui'
 
     export default {
         setup() {
+            const message = useMessage();
+            const dialog = useDialog();
             const email = ref('')
             const subscribeMessage = ref('')
             const isSubscribing = ref(false)
             const supporterCount = ref(0)
             const isSupported = ref(false)
             const timeLeft = ref('')
+            const checkoutUrl = 'https://mengxiaozhi.lemonsqueezy.com/buy/cbe01b6e-4783-497e-8c1e-27f04986fa2b' // 請替換為實際結帳 URL
+
+            // 支付成功處理
+            const handleSuccess = () => {
+                dialog.success({
+                    title: "感謝你的捐款",
+                    content: "每一分捐款都是台灣前進的一步",
+                    positiveText: "確認"
+                });
+            }
 
             // 計算倒數時間
             const updateTimeLeft = () => {
@@ -135,11 +121,6 @@
                     console.error('获取支持人数失败:', error)
                 }
             }
-            // 初始化時立即執行一次
-            fetchSupporterCount();
-            // 每1分鐘重複執行一次
-            setInterval(fetchSupporterCount, 60000);
-
 
             // 訂閱處理
             const handleSubscribe = async () => {
@@ -161,13 +142,10 @@
                     console.log('訂閱請求已發送，等待回應...');
                     const result = await response.json();
                     console.log('訂閱回應結果:', result);
-                    //message.error('訂閱回應結果:', result)
 
                     if (response.ok) {
-                        //message.success('感謝您的訂閱！')
                         subscribeMessage.value = result.message || '感謝您的訂閱！';
                     } else {
-                        //message.error('訂閱回應錯誤:', result.error)
                         console.error('訂閱回應錯誤:', result.error);
                         throw new Error(result.error || '提交失敗，請稍後再試');
                     }
@@ -189,7 +167,6 @@
                         if (response.ok) {
                             supporterCount.value = result.count
                             isSupported.value = true
-                            // 保存支持狀態到 localStorage
                             localStorage.setItem('isSupported', 'true');
                         } else {
                             console.error('支持失敗:', result.error)
@@ -200,49 +177,39 @@
                 }
             }
 
-            const handleShare = async () => {
-                const shareData = {
-                    title: '2048世代接棒 志在未來｜劉訊志競選網站',
-                    text: '眾「志」成城，「訊」勢待發',
-                    url: window.location.href, // 当前页面链接
-                };
-
-                // 判断是否支持 Web Share API
-                if (navigator.share) {
-                    try {
-                        await navigator.share(shareData);
-                        //console.log('內容已分享');
-                    } catch (err) {
-                        alert('分享失敗:', err);
-                        //console.error('分享失敗:', err);
-                    }
-                } else {
-                    // 桌面设备复制链接
-                    copyToClipboard(shareData.url);
-                    alert('連結已複製');
-                }
-            };
-
-            const copyToClipboard = (text) => {
-                const textarea = document.createElement('textarea');
-                textarea.value = text;
-                document.body.appendChild(textarea);
-                textarea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textarea);
-            };
+            // Lemon Squeezy 捐款處理
+            const openCheckout = () => {
+                LemonSqueezy.Url.Open(checkoutUrl)
+            }
 
             onMounted(() => {
                 updateTimeLeft()
                 fetchSupporterCount()
                 const timer = setInterval(updateTimeLeft, 1000)
-                onUnmounted(() => clearInterval(timer))
+                setInterval(fetchSupporterCount, 60000);
 
-                // 檢查 localStorage 中是否有保存過支持狀態
                 const storedSupportStatus = localStorage.getItem('isSupported');
                 if (storedSupportStatus === 'true') {
-                    isSupported.value = true;  // 已經支持過，更新按鈕狀態
+                    isSupported.value = true;
                 }
+
+                // 加載 Lemon Squeezy 腳本
+                const script = document.createElement('script')
+                script.src = 'https://app.lemonsqueezy.com/js/lemon.js'
+                script.onload = () => {
+                    window.createLemonSqueezy()
+                    LemonSqueezy.Setup({
+                        eventHandler: (event) => {
+                            if (event.event === 'Checkout.Success') {
+                                console.log('支付成功')
+                                handleSuccess()
+                            }
+                        }
+                    })
+                }
+                document.body.appendChild(script)
+
+                onUnmounted(() => clearInterval(timer))
             })
 
             return {
@@ -254,42 +221,8 @@
                 timeLeft,
                 handleSubscribe,
                 handleSupport,
-                handleShare
+                openCheckout
             }
         },
     }
 </script>
-
-<style scoped>
-    .flex {
-        display: flex;
-    }
-
-    .min-h-screen {
-        min-height: 100vh;
-    }
-
-    .w-full {
-        width: 100%;
-    }
-
-    .lg\:w-[30%] {
-        width: 30%;
-    }
-
-    .lg\:w-[70%] {
-        width: 70%;
-    }
-
-    .h-[50vh] {
-        height: 50vh;
-    }
-
-    .lg\:h-screen {
-        height: 100vh;
-    }
-
-    .overflow-y-auto {
-        overflow-y: auto;
-    }
-</style>
