@@ -1,10 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
 const routes = [
-  { name: '首頁', path: '/2048', component: () => import('../page/index.vue') },
+  {
+    name: '首頁', path: '/2048', meta: {
+      title: '示例页面'
+    }, component: () => import('../page/index.vue')
+  },
   { name: '取消訂閱', path: '/2048/unsubscribe', component: () => import('../page/unsubscribe.vue') },
   { name: 'NotFound', path: '/2048/404', component: () => import('../page/404.vue') },
-  { path: '/:pathMatch(.*)*', redirect: '/2048/404' } 
+  { path: '/:pathMatch(.*)*', redirect: '/2048/404' }
 ]
 
 const router = createRouter({
