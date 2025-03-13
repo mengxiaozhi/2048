@@ -151,7 +151,7 @@
                     }
                 } catch (error) {
                     console.error('訂閱過程中出現錯誤:', error);
-                    subscribeMessage.value = '提交失敗，請稍後再試';
+                    subscribeMessage.value = error;
                 } finally {
                     isSubscribing.value = false;
                     email.value = '';

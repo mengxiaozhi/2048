@@ -1,0 +1,15 @@
+# MySQL 資訊
+DB_HOST=
+DB_USER=
+DB_PASSWORD=
+DB_NAME=
+
+# 郵件服務
+EMAIL_USER=
+EMAIL_PASS=
+
+# 伺服器配置
+PORT=
+
+# 允許的CORS來源
+CORS_ORIGINS=https://xiaozhi.moe,https://script.google.com/,https://docs.google.com/
