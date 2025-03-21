@@ -12,4 +12,7 @@ EMAIL_PASS=
 PORT=
 
 # 允許的CORS來源
-CORS_ORIGINS=https://xiaozhi.moe,https://script.google.com/,https://docs.google.com/
+CORS_ORIGINS=
+
+# API Token
+API_Token=

@@ -13,7 +13,7 @@ const port = process.env.PORT || 3002;
 // 中間件設置
 app.use(bodyParser.json());
 app.use(cors({
-    origin: ['https://xiaozhi.moe', 'https://script.google.com/', 'https://docs.google.com/'], // 添加前端域名
+    origin: process.env.CORS_ORIGINS.split(','), // 添加前端域名
     methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type']
 }));
@@ -23,7 +23,7 @@ const db = mysql.createPool({
     host: process.env.DB_HOST,
     user: process.env.DB_USER, // 你的 MySQL 使用者名稱
     password: process.env.DB_PASSWORD, // 你的 MySQL 密碼
-    database:  process.env.DB_NAME // 資料庫名稱
+    database: process.env.DB_NAME // 資料庫名稱
 });
 
 // 測試 MySQL 連接
@@ -41,7 +41,7 @@ const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
         user: process.env.EMAIL_USER, // 請填入你的 Gmail 地址
-        pass: process.env.EMAIL_USER // 使用 Gmail 應用程式密碼
+        pass: process.env.EMAIL_PASS // 使用 Gmail 應用程式密碼
     }
 });
 
@@ -77,7 +77,15 @@ app.post('/subscribe', async (req, res) => {
             to: email,
             subject: '訂閱確認 - 請在三天內完成確認',
             text: `請點擊以下連結確認您的訂閱，該連結在三天內有效： ${confirmUrl}`,
-            html: `<p>請點擊以下連結確認您的訂閱，該連結在三天內有效：</p><a href="${confirmUrl}">${confirmUrl}</a>`
+            html: `
+            <p>請點擊以下連結確認您的訂閱，該連結在三天內有效：</p>
+            <a href="${confirmUrl}">${confirmUrl}</a>
+            <p> 
+                --<br>
+                此郵件為系統自動發出，請勿回覆。<br>
+                This email is automatically sent by the system, please do not reply.<br>
+            </p>
+            `
         };
 
         // 發送確認郵件
@@ -204,14 +212,14 @@ app.post('/unsubscribe', (req, res) => {
 // 獲取訂閱者電子郵件列表（需要授權）
 app.get('/subscribers', (req, res) => {
     const apiKey = req.headers['authorization']; // 從請求頭部獲取金鑰
-    const VALID_API_KEY = 'MyoriBanzai12345'; // 定義合法的 API 金鑰
+    const VALID_API_KEY = process.env.API_Token; // 定義合法的 API 金鑰
 
     if (apiKey !== VALID_API_KEY) {
         return res.status(403).json({ error: '未授權的訪問' });
     }
 
     // 返回訂閱者列表
-    db.query('SELECT email FROM subscribers', (err, result) => {
+    db.query('SELECT email FROM subscribers WHERE is_confirmed = 1', (err, result) => {
         if (err) {
             console.error('資料庫錯誤:', err);
             return res.status(500).json({ error: '伺服器錯誤' });
